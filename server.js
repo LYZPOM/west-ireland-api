@@ -39,7 +39,7 @@ app.post("/api/charge", (req, res) => {
 
 
 //Connection
-mongoose.connect("mongodb://lucyli:123456@ds151544.mlab.com:51544/west_ireland", function (err, db) {
+mongoose.connect("mongodb://lucyli:123456@ds151544.mlab.com:51544/west_ireland", {useMongoClient: true},function (err, db) {
     if (!err) {
         console.log("we are connected to mongo");
     }
