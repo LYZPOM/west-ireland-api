@@ -1,0 +1,112 @@
+<div class="mdl-layout__container">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
+    <div class="mdl-layout__header-row">
+      <span class="android-title mdl-layout-title">
+        <img class="android-logo-image" src="assets/images/westIreland-logo.png">
+      </span>
+      <!-- Add spacer, to align navigation to the right in desktop -->
+      <div class="android-header-spacer mdl-layout-spacer"></div>
+      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" id="search-field">
+        </div>
+      </div>
+      <!-- Navigation -->
+      <acme-navbar creation-date="main.creationDate"></acme-navbar>
+      <div ng-controller="PopupController">
+        <img class="shopping-cart-image" src="assets/images/shopping-cart.jpeg" />
+        <button class="btn shopping-cart-text"><a href="" ng-click="open()" ><ngcart-summary></ngcart-summary></a></button>
+      </div>
+      <span class="android-mobile-title mdl-layout-title">
+        <img class="android-logo-image" src="assets/images/westIreland-logo.png">
+      </span>
+    </div>
+  </div>
+
+  <div class="android-drawer mdl-layout__drawer">
+    <span class="mdl-layout-title">
+      <img class="android-logo-image" src="assets/images/westIreland-logo-white.png">
+    </span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="">Home</a>
+      <a class="mdl-navigation__link" href="">Adeventures</a>
+      <a class="mdl-navigation__link" href="">Our Team</a>
+      <a class="mdl-navigation__link" href="">Contact</a>
+      <a class="mdl-navigation__link" href="">Help</a>
+      <div class="android-drawer-separator"></div>
+      <span class="mdl-navigation__link" href="">Videos</span>
+      <a class="mdl-navigation__link" href="">Surfing</a>
+      <a class="mdl-navigation__link" href="">Cycling</a>
+      <a class="mdl-navigation__link" href="">SUP</a>
+      <a class="mdl-navigation__link" href="">Horse Riding</a>
+      <div class="android-drawer-separator"></div>
+      <span class="mdl-navigation__link" href="">Packages</span>
+      <a class="mdl-navigation__link" href="">Stag</a>
+      <a class="mdl-navigation__link" href="">Hen</a>
+      <a class="mdl-navigation__link" href="">Family</a>
+      <div class="android-drawer-separator"></div>
+      <span class="mdl-navigation__link" href="">Team</span>
+      <a class="mdl-navigation__link" href="">Elvis of Surf Mayo</a>
+      <a class="mdl-navigation__link" href="">Muirti of Stand Up Paddle SUP Old Head</a>
+    </nav>
+  </div>
+<div class="android-content mdl-layout__content">
+<a name="top"></a>
+<div class="site-content">
+   <div class="container" ng-controller="ShopCartController">
+      <div class="mdl-grid site-max-width" ng-controller="ActivityController as activity">
+         <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="item in activity.items">
+            <div class="mdl-card__media">
+               <img class="article-image" ng-src="{{item.imagepath}}" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+               <h2 class="mdl-card__title-text">{{item.name}}</h2>
+            </div>
+            <div class="mdl-card__supporting-text mdl-cart">
+                  {{item.description}}
+            </div>
+            <div class="mdl-card__supporting-text mdl-cart">
+                Price :  €{{item.price}}
+            </div>
+            <br>
+            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-page.html">
+              Learn More
+            </a>
+            <div class="mdl-card__actions mdl-card--border">
+               <ngcart-addtocart id="{{$index}}" name="{{item.name}}" price="{{item.price}}" quantity="1" quantity-max="5">Add to Cart</ngcart-addtocart>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<acme-Footer></acme-Footer>
+</div>
+</div>
+</div>
+<script type="text/ng-template" id="template/ngCart/addtocart.html">
+  <div ng-hide="attrs.id">
+    <a class="btn btn-lg btn-primary" ng-disabled="true" ng-transclude></a>
+  </div>
+  <div ng-show="attrs.id">
+    <div>
+      <span ng-show="quantityMax">
+        <select name="quantity" id="quantity" ng-model="q" ng-options=" v for v in qtyOpt"></select>
+      </span>
+        <a class="btn btn-sm btn-primary" ng-click="ngCart.addItem(id, name, price, q, data)" ng-transclude></a>
+    </div>
+    <span ng-show="inCart()">
+    <br>
+    <p class="alert alert-info">This item is in your cart. <a ng-click="ngCart.removeItemById(id)" style="cursor: pointer;">Remove</a></p>
+    </span>
+  </div>
+</script>
+<script type="text/ng-template" id="template/ngCart/summary.html">
+  <span class="">{{ ngCart.getTotalItems() }}
+    <ng-pluralize count="ngCart.getTotalItems()" when="{1: 'item', 'other':'items'}"></ng-pluralize>
+    <br />{{ ngCart.totalCost() | currency:'€' }}
+  </span>
+</script>
